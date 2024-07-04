@@ -23,7 +23,7 @@ function Signup() {
         associatedWith,
         password
       }
-      const response = await axios.post('http://localhost:4000/users', newUser);
+      const response = await axios.post('https://litsoc-blogs.vercel.app/users', newUser);
       console.log("User created: ", response.data); 
       // alert("User created successfully!");
 

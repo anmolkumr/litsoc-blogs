@@ -23,7 +23,7 @@ function Dashboard() {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/blogs`, {
+                const response = await axios.get(`https://litsoc-blogs.vercel.app/blogs`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
@@ -42,7 +42,7 @@ function Dashboard() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:4000/blogs/${id}`, {
+            await axios.delete(`https://litsoc-blogs.vercel.app/blogs/${id}`, {
                 // headers: {
                 //     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 // }

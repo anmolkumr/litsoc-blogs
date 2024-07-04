@@ -15,7 +15,7 @@ const SinglePost = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/blogs/${id}`)
+        axios.get(`https://litsoc-blogs.vercel.app/blogs/${id}`)
             .then(response => {
                 console.log('Blog fetched successfully:', response.data);
                 setBlog(response.data);

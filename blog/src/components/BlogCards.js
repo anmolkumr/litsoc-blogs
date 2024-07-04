@@ -8,7 +8,7 @@ const BlogCards = () => {
     const [blogs, setBlogs] = useState([]);
     const defaultImage = 'https://via.placeholder.com/150';
     useEffect(() => {
-        axios.get('http://localhost:4000/blogs') // Replace with your API endpoint
+        axios.get('https://litsoc-blogs.vercel.app/blogs') // Replace with your API endpoint
             .then(response => {
                 setBlogs(response.data);
             })

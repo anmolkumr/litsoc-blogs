@@ -33,12 +33,12 @@ function BlogEditor({ existingBlog }) {
 
     try {
       if (existingBlog) {
-        await axios.patch(`http://localhost:4000/blogs/${existingBlog._id}`, blogData, {
+        await axios.patch(`https://litsoc-blogs.vercel.app/blogs/${existingBlog._id}`, blogData, {
 
         });
       } else {
         // new blog code
-        await axios.post('http://localhost:4000/blogs', blogData, {
+        await axios.post('https://litsoc-blogs.vercel.app/blogs', blogData, {
           // headers: {
           //   'Authorization': `Bearer ${localStorage.getItem('token')}`,
           //   'Content-Type': 'multipart/form-data'

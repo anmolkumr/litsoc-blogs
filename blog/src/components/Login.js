@@ -18,7 +18,7 @@ function Login() {
 
   const handleLogin = async () => {
      try {
-      const response = await axios.post('http://localhost:4000/login', { email, password });
+      const response = await axios.post('https://litsoc-blogs.vercel.app/login', { email, password });
       cookie.save('token', response.data.token);
       MySwal.fire({
         title: <p>Login Successful!</p>,

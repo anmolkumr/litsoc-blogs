@@ -11,7 +11,7 @@ function UpdateBlogPage() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/blogs/${id}`, {
+        const response = await axios.get(`https://litsoc-blogs.vercel.app/blogs/${id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
