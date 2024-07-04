@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 const secretKey = 'anmolqwe123';
 
-mongoose.connect('mongodb://localhost:27017/litsocblog')
+mongoose.connect('mongodb+srv://anmol4979199:anmol123@test.8oysegr.mongodb.net/litsocblog')
     .then(() => console.log('MongoDB is connected now!!'))
     .catch(err => console.log(err));
 
