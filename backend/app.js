@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const Blog = require('./models/Blog');
+const cookieParser = require('cookie-parser');
+
 
 
 const app = express();
@@ -11,6 +13,7 @@ const port = 4000;
 
 app.use(bodyParser.json());
 app.use(cors()); //this will enable cross domain acess
+app.use(cookieParser());
 
 const secretKey = 'anmolqwe123';
 
@@ -24,20 +27,26 @@ const User = require('./models/User');
 app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(email, password)
 
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).send({ error: 'User not found' });
         }
-
+        console.log(user);
         const isPasswordMatch = await user.comparePassword(password);
         if (!isPasswordMatch) {
             return res.status(400).send({ error: 'Wrong credentials' });
         }
+        console.log("password matched")
 
-        const token = jwt.sign({ _id: user._id.toString() }, secretKey, { expiresIn: '4h' });
-
-        res.send({ user, token });
+        const token = jwt.sign({
+          _id: user._id.toString(),
+          email: user.email,
+          name: user.name,
+        }, secretKey, { expiresIn: '4h' });
+        res.cookie("token",token);
+        res.status(200).send({ token });
     } catch (error) {
         res.status(500).send(error);
     }
@@ -126,6 +135,31 @@ app.post('/blogs', async (req, res) => {
     }
   });
 
+  app.patch('/blogs/:id', async (req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['title', 'content', 'featured_img'];
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+  
+    // if (!isValidOperation) {
+    //   return res.status(400).send({ error: 'Invalid updates!' });
+    // }
+  
+    try {
+      const blog = await Blog.findOne({ _id: req.params.id, added_by: req.user._id });
+  
+      if (!blog) {
+        return res.status(404).send();
+      }
+  
+      updates.forEach((update) => blog[update] = req.body[update]);
+      await blog.save();
+      res.send(blog);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  });
+
+
 //   app.post('/users', async (req, res) => {
 //     console.log(req.body);
 //     try {
@@ -140,6 +174,7 @@ app.post('/blogs', async (req, res) => {
 // Getting all blogs
 app.get('/blogs', async (req, res) => {
     try {
+      params = req.query;
       const blogs = await Blog.find({});
       res.send(blogs);
     } catch (error) {
@@ -157,6 +192,20 @@ app.get('/blogs', async (req, res) => {
         return res.status(404).send();
       }
       res.send(blog);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+  // Get post by user id
+app.get('/blogs/user/:id', async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        return res.status(404).send();
+      }
+  
+      await user.populate('blogs').execPopulate();
+      res.send(user.blogs);
     } catch (error) {
       res.status(500).send(error);
     }

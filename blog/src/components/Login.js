@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { MDBContainer, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import cookie from 'react-cookies';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
+
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -14,18 +19,39 @@ function Login() {
   const handleLogin = async () => {
      try {
       const response = await axios.post('http://localhost:4000/login', { email, password });
-      console.log('User logged in successfully:', response.data);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('userId', response.data.user._id);
+      cookie.save('token', response.data.token);
+      MySwal.fire({
+        title: <p>Login Successful!</p>,
+        icon: 'success',
+        showConfirmButton: true,
+        confirmButtonText: "Go to Dashboard",
+      }).then((result) => {
+        
+        if (result.isConfirmed) {
+          navigate('/dashboard');
+        }
+      })
       login({ email: response.data.email, token: response.data.token });
-      navigate('/dashboard');
     } catch (error) {
+      MySwal.fire({
+        title: <p>Oops! Couldn't Log you In!</p>,
+        icon: 'error',
+        showConfirmButton: true,
+        confirmButtonText: "Try Again",
+      }).then((result) => {
+        
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      })
       console.error('Error logging in:', error);
     }
   };
 
   return (
     <>
+    <div className='bg-login'>
+
       <MDBContainer className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
         <MDBCard style={{ maxWidth: '400px', width: '100%' }}>
           <MDBCardBody>
@@ -36,6 +62,7 @@ function Login() {
           </MDBCardBody>
         </MDBCard>
       </MDBContainer>
+    </div>
     </>
 
   );

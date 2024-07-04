@@ -1,15 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { MDBContainer, MDBBtn } from 'mdb-react-ui-kit';
+import Navbar from './Navbar';
+import AllBlogs from './BlogPost';
+import Footer from './Footer';
+
 
 
 function Home() {
   return (
-    <MDBContainer className="text-center my-5">
-      <h1>Welcome to the Blog App</h1>
-      <MDBBtn tag={Link} to="/login" color="primary" className="mx-2">Login here</MDBBtn>
-      <MDBBtn tag={Link} to="/signup" color="secondary" className="mx-2">Signup</MDBBtn>
-    </MDBContainer>
+    <>
+    <Navbar />
+
+   
+    <div
+        className='p-5 text-center bg-image'
+        style={{ backgroundImage: "url('bg-img.jpg')", height: '400px' }}
+      >
+        <div className='mask' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2' }}>
+          <div className='d-flex justify-content-center align-items-center h-100'>
+            <div style={{color:"white"}} className='poppins-regular'>
+              <h1 className='mb-3'>Welcome to</h1>
+              <h4 className='mb-3'>LitSoc IITGN</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <AllBlogs />  
+      <Footer />
+    </>
   );
 }
 

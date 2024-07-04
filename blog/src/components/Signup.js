@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MDBContainer, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 import axios from 'axios';
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
 
 function Signup() {
   const [email, setEmail] = useState('');
   const [roll, setRoll] = useState('')
   const [name, setName] = useState('')
-  const [associatedWith, setAssociatedWith] = useState('')
+  const [associatedWith, setAssociatedWith] = useState('LitSoc')
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -22,8 +24,20 @@ function Signup() {
         password
       }
       const response = await axios.post('http://localhost:4000/users', newUser);
-      console.log("User created: ", response.data);
-      navigate('/login');
+      console.log("User created: ", response.data); 
+      // alert("User created successfully!");
+
+      MySwal.fire({
+        title: <p>User created successfully!</p>,
+        icon: 'success',
+        showConfirmButton: true,
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      })
     }
     catch (error) {
       console.error("Error creating user: ", error);

@@ -10,6 +10,7 @@ import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
 import CreateBlogPage from './pages/CreateBlogPage';
 import UpdateBlogPage from './pages/UpdateBlogPage';
+import PostPage from './pages/Post';
 // import PrivateRoute from './components/PrivateRoute';
 
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/signup" element={<SignupPage/>} />
         <Route path="/dashboard" element={<DashboardPage/>} />
         <Route path="/create-blog" element={<CreateBlogPage/>} />
+        <Route path="/post/:id" element={<PostPage/>} />
         <Route path="/update-blog/:id" element={<UpdateBlogPage/>} />
       </Routes>
     </Router>
