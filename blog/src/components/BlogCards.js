@@ -8,7 +8,7 @@ const BlogCards = () => {
     const [blogs, setBlogs] = useState([]);
     const defaultImage = 'https://via.placeholder.com/150';
     useEffect(() => {
-        axios.get('https://litsoc-blogs.vercel.app/blogs') // Replace with your API endpoint
+        axios.get(`${process.env.REACT_APP_API}/blogs`) // Replace with your API endpoint
             .then(response => {
                 setBlogs(response.data);
             })
@@ -22,9 +22,11 @@ const BlogCards = () => {
         blog.content = he.decode(blog.content);
     });
 
+    const publishedBlogs = blogs.filter(blog => blog.status === 'published');
+
     return (
         <MDBRow className="row-cols-1 row-cols-md-3 g-4 mt-3">
-            {blogs.map((blog) => (
+            {publishedBlogs.map((blog) => (
                 <MDBCol key={blog.id}>
                     <MDBCard shadow='0' border='secondary' >
                         <MDBCardImage height={250}

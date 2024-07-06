@@ -4,6 +4,11 @@ import 'react-quill/dist/quill.snow.css';
 import { MDBContainer, MDBInput, MDBBtn, MDBInputGroup } from 'mdb-react-ui-kit';
 import axios from 'axios';
 import Navbar from './Navbar';
+import { useNavigate } from 'react-router-dom';
+
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
 
 function BlogEditor({ existingBlog }) {
 
@@ -11,6 +16,7 @@ function BlogEditor({ existingBlog }) {
   const [content, setContent] = useState(existingBlog ? existingBlog.content : '');
   const [featuredImage, setFeaturedImage] = useState(existingBlog ? existingBlog.featured_img : '');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const userId = localStorage.getItem('username');
   console.log("User from local"+userId);
 
@@ -33,16 +39,34 @@ function BlogEditor({ existingBlog }) {
 
     try {
       if (existingBlog) {
-        await axios.patch(`https://litsoc-blogs.vercel.app/blogs/${existingBlog._id}`, blogData, {
+        await axios.patch(`${process.env.REACT_APP_API}/blogs/${existingBlog._id}`, blogData, {
 
+        });
+        Swal.fire({
+          title: "Blog Updated",
+          text: "Please go to the dashboard!",
+          icon: "success"
         });
       } else {
         // new blog code
-        await axios.post('https://litsoc-blogs.vercel.app/blogs', blogData, {
+        await axios.post(`${process.env.REACT_APP_API}/blogs`, blogData, {
           // headers: {
           //   'Authorization': `Bearer ${localStorage.getItem('token')}`,
           //   'Content-Type': 'multipart/form-data'
           // }
+        });
+        Swal.fire({
+          title: "Draft Saved",
+          text: "Do you want to go to the dashboard?",
+          showDenyButton: false,
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonText: "Yes, go to dashboard",
+          denyButtonText: `Stay here`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/dashboard');
+          }
         });
       }
       console.log('Blog saved successfully');

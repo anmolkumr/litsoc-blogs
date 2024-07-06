@@ -4,6 +4,8 @@ import { MDBContainer, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdb-react-
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import Navbar from './Navbar';
+import Footer from './Footer';
 const MySwal = withReactContent(Swal)
 
 function Signup() {
@@ -12,9 +14,11 @@ function Signup() {
   const [name, setName] = useState('')
   const [associatedWith, setAssociatedWith] = useState('LitSoc')
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignup = async() => {
+    setIsLoading(true);
     try {
       const newUser = {
         email,
@@ -23,7 +27,7 @@ function Signup() {
         associatedWith,
         password
       }
-      const response = await axios.post('https://litsoc-blogs.vercel.app/users', newUser);
+      const response = await axios.post(`${process.env.REACT_APP_API}/users`, newUser);
       console.log("User created: ", response.data); 
       // alert("User created successfully!");
 
@@ -46,6 +50,8 @@ function Signup() {
   };
 
   return (
+    <>
+      <Navbar />
     <MDBContainer className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
       <MDBCard style={{ maxWidth: '400px', width: '100%' }}>
         <MDBCardBody>
@@ -56,7 +62,7 @@ function Signup() {
             value={roll}
             onChange={(e) => setRoll(e.target.value)}
             className="mb-3"
-          />
+            />
           <MDBInput
             label="Name"
             type="text"
@@ -64,37 +70,42 @@ function Signup() {
             onChange={(e) => setName(e.target.value)}
             className="mb-3"
           />
-          <MDBInput
-            label="Club Name/Associated With"
-            type="text"
-            value={associatedWith}
-            onChange={(e) => setAssociatedWith(e.target.value)}
-            className="mb-3"
-          />
+         
           <MDBInput
             label="Email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="mb-3"
-          />
+            />
           <MDBInput
             label="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="mb-3"
-          />
+            />
+             <MDBInput
+            label="Club Name/Associated With"
+            type="text"
+            value={associatedWith}
+            onChange={(e) => setAssociatedWith(e.target.value)}
+            className="mb-3"
+            disabled
+            />
           <MDBBtn
             color="secondary"
             onClick={handleSignup}
             className="w-100"
-          >
-            Signup
+            >
+
+           {isLoading ? 'Submitting...' : 'Signup'}
           </MDBBtn>
         </MDBCardBody>
       </MDBCard>
     </MDBContainer>
+    <Footer />
+            </>
   );
 }
 
