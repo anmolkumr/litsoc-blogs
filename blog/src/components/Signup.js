@@ -70,7 +70,7 @@ function Signup() {
             onChange={(e) => setName(e.target.value)}
             className="mb-3"
           />
-         
+          
           <MDBInput
             label="Email"
             type="email"

@@ -22,7 +22,7 @@ function Login() {
     setIsLoading(true);
      try {
       const response = await axios.post(`${process.env.REACT_APP_API}/login`, { email, password });
-      cookie.save('token', response.data.token);
+      localStorage.setItem('token', response.data.token);
       MySwal.fire({
         title: <p>Login Successful!</p>,
         icon: 'success',

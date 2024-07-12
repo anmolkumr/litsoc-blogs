@@ -15,18 +15,19 @@ function Dashboard() {
     const { user, logout } = useAuth();
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const name = localStorage.getItem('username');
-    const token = cookie.load('token');
+    const token = localStorage.getItem('token');
     if (token) {
+
         const decoded = jwtDecode(token);
         console.log(decoded);
-        var userid = decoded._id;
+        var name = decoded.name;
+
     }
 
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API}/blogs`, {
+                const response = await axios.get(`${process.env.REACT_APP_API}/admin/blogs`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
@@ -56,10 +57,10 @@ function Dashboard() {
             if (result.isConfirmed) {
 
                 try {
-                    axios.delete(`http://localhost:4000/blogs/${id}`, {
-                        // headers: {
-                        //     'Authorization': `Bearer ${localStorage.getItem('token')}`
-                        // }
+                    axios.delete(`${process.env.REACT_APP_API}/blogs/${id}`, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
                     });
                     Swal.fire({
                         title: "Deleted!",
@@ -85,7 +86,12 @@ function Dashboard() {
         try {
             await axios.patch(`${process.env.REACT_APP_API}/blogs/${id}`, {
                 status: 'published'
-            });
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            }
+            );
             Swal.fire({
                 title: "Yayy!!",
                 text: "Your Blog has been Published!",
@@ -157,9 +163,9 @@ function Dashboard() {
                                             <>
                                                 <MDBTooltip tag='span' wrapperClass='d-inline-block' title='Publish Now'>
 
-                                                <MDBBtn onClick={() => handleStatus(blog._id)} color="info" className="mx-2 mb-1">
-                                                    <MDBIcon fas icon="check" />
-                                                </MDBBtn>
+                                                    <MDBBtn onClick={() => handleStatus(blog._id)} color="info" className="mx-2 mb-1">
+                                                        <MDBIcon fas icon="check" />
+                                                    </MDBBtn>
                                                 </MDBTooltip>
 
                                             </>

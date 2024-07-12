@@ -18,15 +18,34 @@ app.use(cookieParser());
 const secretKey = 'anmolqwe123';
 dotenv.config();
 
-// mongoose.connect(process.env.MONGO_URL_LOCAL)
-//     .then(() => console.log('MongoDB is connected now!!'))
-//     .catch(err => console.log(err));
-
-mongoose.connect(process.env.MONGO_URL_PROD)
+mongoose.connect(process.env.MONGO_URL_LOCAL)
   .then(() => console.log('MongoDB is connected now!!'))
   .catch(err => console.log(err));
 
+// mongoose.connect(process.env.MONGO_URL_PROD)
+//   .then(() => console.log('MongoDB is connected now!!'))
+//   .catch(err => console.log(err));
+
 const User = require('./models/User');
+
+// Auth middleware
+
+function authenticateUser(req, res, next) {
+  let token = req.header("Authorization");
+  console.log(token);
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized. Token is missing." });
+  }
+  token = token.split(" ")[1];
+  try {
+    const verified = jwt.verify(token, secretKey);
+    req.user = verified;
+
+    next();
+  } catch (err) {
+    res.status(400).json({ message: 'Invalid token' });
+  }
+}
 
 // login handling
 app.post('/login', async (req, res) => {
@@ -129,8 +148,9 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 
-app.post('/blogs', async (req, res) => {
-  const blog = new Blog(req.body);
+app.post('/blogs', authenticateUser, async (req, res) => {
+  const { title, content, featured_img } = req.body;
+  const blog = new Blog({ title, content, featured_img, added_by: req.user._id });
 
   try {
     await blog.save();
@@ -140,11 +160,11 @@ app.post('/blogs', async (req, res) => {
   }
 });
 
-app.patch('/blogs/:id', async (req, res) => {
+app.patch('/blogs/:id', authenticateUser, async (req, res) => {
   const updates = Object.keys(req.body);
 
   try {
-    const blog = await Blog.findOne({ _id: req.params.id});
+    const blog = await Blog.findOne({ _id: req.params.id });
 
     if (!blog) {
       return res.status(404).send();
@@ -159,32 +179,35 @@ app.patch('/blogs/:id', async (req, res) => {
 });
 
 
-//   app.post('/users', async (req, res) => {
-//     console.log(req.body);
-//     try {
-//         const user = new User(req.body);
-//         await user.save();
-//         res.status(201).send(user);
-//     } catch (error) {
-//         res.status(400).send(error);
-//     }
-// });
-
 // Getting all blogs
 app.get('/blogs', async (req, res) => {
   try {
-    params = req.query;
-    const blogs = await Blog.find({});
+    console.log('Fetching blogs with status published...');
+
+    // Fetch blogs with status 'published' and populate the 'added_by' field
+    const blogs = await Blog.find({ status: 'published' }).populate('added_by', 'name email');
+
+    console.log('Fetched blogs:', blogs);
+
+    // Check if blogs array is empty
+    if (blogs.length === 0) {
+      console.log('No published blogs found');
+      return res.status(404).send({ message: 'No published blogs found' });
+    }
+
+    // Send the fetched blogs
     res.send(blogs);
   } catch (error) {
+    console.error('Error fetching blogs:', error);
     res.status(500).send(error);
   }
 });
 
+
+
+
 app.get('/blogs/:id', async (req, res) => {
   const _id = req.params.id;
-
-
   try {
     const blog = await Blog.findById(_id);
     if (!blog) {
@@ -209,11 +232,66 @@ app.get('/blogs/user/:id', async (req, res) => {
     res.status(500).send(error);
   }
 });
+ 
 
+// Authors 
+app.get('/authors', async (req, res) => {
+  try {
+    const authors = await User.aggregate([
+      {
+        $match: { user_type: 'normal' }
+      },
+      {
+        $lookup: {
+          from: 'blogs',
+          localField: '_id',
+          foreignField: 'added_by',
+          as: 'blogs'
+        }
+      },
+      {
+        $match: { 'blogs.0': { $exists: true } }
+      },
+      {
+        $project: {
+          password: 0 // Exclude the password field if it exists in the User schema
+        }
+      }
+    ]);
+
+    res.send(authors);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+
+app.get('/admin/blogs', authenticateUser, async (req, res) => {
+  try {
+    params = req.user;
+    console.log(params);
+    const blogs = await Blog.find({ added_by: params._id });
+    res.send(blogs);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+app.get('admin/blogs/:id', authenticateUser, async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const blog = await Blog.findById(_id);
+    if (!blog) {
+      return res.status(404).send();
+    }
+    res.send(blog);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 // blog del by id
 app.delete('/blogs/:id', async (req, res) => {
   try {
-    const blog = await Blog.findOneAndDelete({ _id: req.params.id});
+    const blog = await Blog.findOneAndDelete({ _id: req.params.id });
 
     if (!blog) {
       return res.status(404).send();

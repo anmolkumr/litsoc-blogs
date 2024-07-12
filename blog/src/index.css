@@ -17,6 +17,12 @@ body {
 
 }
 
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style:normal;
+}
+
 .poppins-regular {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
@@ -28,9 +34,208 @@ body {
   font-weight: 500;
   font-style: normal;
 }
+.sahitya-regular {
+  font-family: "Sahitya", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sahitya-bold {
+  font-family: "Sahitya", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+.literata-regular {
+  font-family:  "Literata", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.literata-bold {
+  font-family:  "Literata", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.roboto-black {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.roboto-thin-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.roboto-light-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.roboto-regular-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.roboto-medium-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.roboto-bold-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.roboto-black-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
 
 .bg-card{
   background: #382e22;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+.author-card-container {
+  background-image: url('https://random-image-pepebigotes.vercel.app/api/random-image'); /* Replace with your background image path */
+  background-size: cover;
+  background-position: center;
+ 
+}
+.filter{
+  backdrop-filter: brightness(0.7);
+  /* backdrop-filter: blur(10px); */
+  padding: 20px;
+}
+.author-card {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.author-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 20px;
+}
+
+.author-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.author-name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.author-details {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.author-date-location {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.author-description {
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.poem-list-container {
+  /* max-width: 800px; */
+  margin: auto;
+}
+
+.poem-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.poem-icon {
+  font-size: 1rem;
+  color: #888;
+  margin-right: 15px;
+}
+
+.poem-text {
+  flex: 1;
+}
+
+.poem-title {
+  font-size: 1rem;
+  font-weight: normal
+  ;
+  margin: 0;
+}
+
+.poem-description {
+  font-size: 0.8rem;
+  color: #555;
+  margin: 0;
+}
+
+.poem-actions {
+  display: flex;
+  gap: 10px;
+}
+
+
+.poem-action:hover {
+  color: #555;
 }

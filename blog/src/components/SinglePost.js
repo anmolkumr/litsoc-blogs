@@ -19,6 +19,7 @@ const SinglePost = () => {
             .then(response => {
                 console.log('Blog fetched successfully:', response.data);
                 setBlog(response.data);
+                document.title = response.data.title;
             })
             .catch(error => {
                 console.error('There was an error fetching the blog data!', error);

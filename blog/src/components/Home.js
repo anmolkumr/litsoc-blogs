@@ -18,7 +18,7 @@ function Home() {
         <div className='mask' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2' }}>
           <div className='d-flex justify-content-center align-items-center h-100'>
             <div style={{color:"white"}} className='poppins-regular'>
-              <h1 className='mb-3'>Welcome to</h1>
+              <h1 className='mb-3 '>Welcome to</h1>
               <h4 className='mb-3'>LitSoc IITGN</h4>
             </div>
           </div>

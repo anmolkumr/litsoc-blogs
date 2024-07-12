@@ -31,9 +31,9 @@ export default function Navbar() {
   }
   return (
     <>
-      <MDBNavbar bgColor='light'>
+      <MDBNavbar bgColor='light' className='literata-regular'>
         <MDBContainer fluid> 
-          <MDBNavbarBrand href='#'><img className='text-center' style={{height: 40, width:40,}} src={`${process.env.PUBLIC_URL}/logo.png`} alt="Logo" />
+          <MDBNavbarBrand href='/'><img className='text-center' style={{height: 40, width:40,}} src={`${process.env.PUBLIC_URL}/logo.png`} alt="Logo" />
           LitSoc IITGN</MDBNavbarBrand>
 
           <MDBNavbarToggler
@@ -54,7 +54,7 @@ export default function Navbar() {
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <MDBNavbarLink href='#'>Explore Authors</MDBNavbarLink>
+                <MDBNavbarLink href='/authors'>Explore Authors</MDBNavbarLink>
               </MDBNavbarItem>
               
               <MDBNavbarItem>

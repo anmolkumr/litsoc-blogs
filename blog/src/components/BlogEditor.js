@@ -18,7 +18,7 @@ function BlogEditor({ existingBlog }) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const userId = localStorage.getItem('username');
-  console.log("User from local"+userId);
+  console.log("User from local" + userId);
 
   useEffect(() => {
     if (existingBlog && existingBlog.featured_img) {
@@ -32,7 +32,6 @@ function BlogEditor({ existingBlog }) {
     const blogData = {
       title,
       content,
-      added_by: userId,
       featured_img: featuredImage
     };
 
@@ -40,7 +39,9 @@ function BlogEditor({ existingBlog }) {
     try {
       if (existingBlog) {
         await axios.patch(`${process.env.REACT_APP_API}/blogs/${existingBlog._id}`, blogData, {
-
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
         });
         Swal.fire({
           title: "Blog Updated",
@@ -50,10 +51,9 @@ function BlogEditor({ existingBlog }) {
       } else {
         // new blog code
         await axios.post(`${process.env.REACT_APP_API}/blogs`, blogData, {
-          // headers: {
-          //   'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          //   'Content-Type': 'multipart/form-data'
-          // }
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          }
         });
         Swal.fire({
           title: "Draft Saved",
@@ -90,7 +90,7 @@ function BlogEditor({ existingBlog }) {
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' },
       { 'indent': '-1' }, { 'indent': '+1' }],
-      ['link', 'image', 'video'],
+      ['link', 'image'],
       ['clean']
     ],
   };
@@ -156,38 +156,38 @@ function BlogEditor({ existingBlog }) {
 
   return (
     <>
-    <Navbar />
-    <MDBContainer className="my-5">
-      <h2>{existingBlog ? 'Update Blog' : 'Create Blog'}</h2>
-      <MDBInput label="Title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="mb-3" />
-      
-      <MDBInputGroup className="mb-3">
-        <MDBInput type="text" id="eventPosterUrlInput" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
-        <MDBBtn color="primary" onClick={uploadImage} id="uploadImageButton">Select Image</MDBBtn>
-      </MDBInputGroup>
-      <div class="progress mt-3" style={{display: 'none'}}>
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-          style={{width:"0%"}} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-      </div>
-      <br/>
-      {/* <div class="input-group">
+      <Navbar />
+      <MDBContainer className="my-5">
+        <h2>{existingBlog ? 'Update Blog' : 'Create Blog'}</h2>
+        <MDBInput label="Title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="mb-3" />
+
+        <MDBInputGroup className="mb-3">
+          <MDBInput type="text" id="eventPosterUrlInput" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
+          <MDBBtn color="primary" onClick={uploadImage} id="uploadImageButton">Select Image</MDBBtn>
+        </MDBInputGroup>
+        <div class="progress mt-3" style={{ display: 'none' }}>
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+            style={{ width: "0%" }} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+        <br />
+        {/* <div class="input-group">
         <input type="url" class="form-control"  required>
                     <button type="button" class="btn btn-primary" onclick="uploadImage()" id="uploadImageButton">Upload
                     Image</button>
                   </div> */}
 
-      <ReactQuill
-        value={content}
-        onChange={setContent}
-        modules={modules}
-        formats={formats}
-        className="mb-3"
+        <ReactQuill
+          value={content}
+          onChange={setContent}
+          modules={modules}
+          formats={formats}
+          className="mb-3"
         />
-      <MDBBtn color="primary" onClick={handleSave} disabled={isLoading}>
-        {isLoading ? 'Saving...' : 'Save'}
-      </MDBBtn>
-    </MDBContainer>
-        </>
+        <MDBBtn color="primary" onClick={handleSave} disabled={isLoading}>
+          {isLoading ? 'Saving...' : 'Save'}
+        </MDBBtn>
+      </MDBContainer>
+    </>
   );
 }
 
