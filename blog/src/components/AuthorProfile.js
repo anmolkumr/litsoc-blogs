@@ -39,29 +39,39 @@ function AuthorProfile() {
         <>
             <Navbar />
             <div className="author-card-container">
-            {author && (
-                <div className="filter">
-                    <div background="transparent" className="author-card">
-                        <div className="d-flex flex-column flex-xl-row">
-                            <MDBCardImage
-                                src={author.name}
-                                alt="Author"
-                                className="author-image"
-                            />
+                {author && (
+                    <div className="filter">
+                        <div background="transparent" className="author-card">
+                            <div className="d-flex flex-column flex-xl-row">
+                                <MDBCardImage
+                                    src={`${process.env.REACT_APP_API}/${author.image}` ? `${process.env.REACT_APP_API}/${author.image}` : 'https://via.placeholder.com/150'}
+                                    alt="Author"
+                                    className="author-image"
+                                />
 
-                            <MDBCardBody className="author-info sahitya-regular">
-                                <MDBCardTitle className="author-name ">{author.name}</MDBCardTitle>
-                                <div className="author-details">
-                                    <MDBCardText className="author-description">
-                                        {author.description}
-                                    </MDBCardText>
-                                </div>
-                            </MDBCardBody>
+                                <MDBCardBody className="author-info sahitya-regular">
+                                    <MDBCardTitle className="author-name ">{author.name}</MDBCardTitle>
+                                    <div className="author-details">
+                                        <MDBCardText className="author-description">
+                                            {author.bio}
+                                        </MDBCardText>
+                                        <div className="author-social-icons">
+                                            <Link to={author.instagram}>
+                                                <MDBIcon fab icon="instagram" className="text-white" />
+                                            </Link>
+                                            <Link to={author.whatsapp}>
+                                            <MDBIcon fab icon="whatsapp" className="text-white" />
+                                            </Link>
+
+                                        </div>
+
+                                    </div>
+                                </MDBCardBody>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
             <MDBContainer>
                 <MDBRow>
                     <MDBCol sm='12' md='9'>
@@ -71,8 +81,9 @@ function AuthorProfile() {
                                 <div className="poem-item" key={index}>
                                     <MDBIcon fas icon="angle-right" className="poem-icon" />
                                     <div className="poem-text">
-                                        <h5 className="poem-title roboto-regular">{poem.title}</h5>
-                                        <p className="poem-description roboto-regular mt-1">{poem.description}</p>
+                                        <Link to={`/post/${poem._id}`}>
+                                            <h5 className="poem-title roboto-regular text-dark">{poem.title}</h5>
+                                        </Link>
                                     </div>
 
                                 </div>

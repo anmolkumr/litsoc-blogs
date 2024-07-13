@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { MDBContainer, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBRow, MDBCol, MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
 import DOMPurify from 'dompurify';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { FacebookSelector } from '@charkour/react-reactions';
+import { RWebShare } from "react-web-share";
 
 
 
@@ -15,11 +16,24 @@ const SinglePost = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
+        // axios.get(`${process.env.REACT_APP_API}/blogs/${id}/comments`, {
+        //     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        // })
+        //     .then(response => {
+        //         console.log('Comments fetched successfully:', response.data);
+        //         setBlog(response.data);
+        //         document.title = response.data.title;
+        //     })
+        //     .catch(error => {
+        //         console.error('There was an error fetching the blog data!', error);
+        //     });
+
         axios.get(`${process.env.REACT_APP_API}/blogs/${id}`)
             .then(response => {
                 console.log('Blog fetched successfully:', response.data);
                 setBlog(response.data);
-                document.title = response.data.title;
+                document.title = response.data.title + " | " + response.data.added_by.name + " | LitSoc IITGN";
             })
             .catch(error => {
                 console.error('There was an error fetching the blog data!', error);
@@ -38,10 +52,37 @@ const SinglePost = () => {
             <Navbar />
             <MDBContainer className="mt-5">
                 <MDBRow>
-                    <img className='img-fluid'
+                    <img className=' blog-hero'
                         src={blog.featured_img && blog.featured_img.trim() ? blog.featured_img : defaultImage}
-                        alt="blog" style={{ height: '300px', width: '100%', objectFit: 'cover' }}
+                        alt="blog"
                     />
+
+                    <div shadow='0' className='blog-author ms-2 mt-4'>
+                        <span><MDBIcon far icon="user" /> {blog.added_by.name}</span><br></br>
+                        <span>
+                            <MDBIcon far icon="calendar-alt" /> {
+                                new Date(blog.saved_at).toLocaleString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' })}
+
+                        </span>
+                        <br />
+
+                        <RWebShare
+                            data={{
+                                text: "Hey! Check out this blog on LitSoc IITGN",
+                                url: window.location.href,
+                                title: document.title
+                            }}
+                            onClick={() => console.info("share successful!")}
+                        >
+                            <MDBBtn color='tertiary' rippleColor='light'>
+                                <MDBIcon far icon="share-square" /> Share
+                            </MDBBtn>
+                        </RWebShare>
+
+
+                    </div>
+
+
                     <MDBCol md="9">
                         <MDBCard shadow='0' className='mt-4 bg-secondary bg-opacity-10' >
                             <MDBCardBody>
@@ -54,17 +95,17 @@ const SinglePost = () => {
                         </MDBCard>
                     </MDBCol>
                     <MDBCol md="3">
-                        <MDBCard  shadow='0' className='mt-4 bg-secondary bg-opacity-10'>
+                        <MDBCard shadow='0' className='mt-4 bg-secondary bg-opacity-10'>
                             <MDBCardBody>
-                                <MDBCardText>Author: {blog.added_by}</MDBCardText>
-                                <MDBCardText>
-                                    Last updated: {
-                                        new Date(blog.saved_at).toLocaleString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' })}
+                                <p className='text-center poppins-medium'>More From Anmol Kumar</p>
 
+                                <MDBCardText>
+                                    {blog.added_by.bio}
                                 </MDBCardText>
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
+
 
                 </MDBRow>
                 <MDBContainer md="9" className="mt-5">
@@ -73,7 +114,7 @@ const SinglePost = () => {
 
                     <FacebookSelector />
                 </MDBContainer>
-            </MDBContainer>
+            </MDBContainer >
             <Footer />
         </>
     );

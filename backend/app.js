@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 const Blog = require('./models/Blog');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
-
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 const port = 4000;
@@ -30,6 +31,8 @@ const User = require('./models/User');
 
 // Auth middleware
 
+
+
 function authenticateUser(req, res, next) {
   let token = req.header("Authorization");
   console.log(token);
@@ -46,6 +49,28 @@ function authenticateUser(req, res, next) {
     res.status(400).json({ message: 'Invalid token' });
   }
 }
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+const upload = multer({ storage: storage });
+
+app.post('/upload-image', upload.single('image'), (req, res) => {
+  try {
+    const filePath = path.join('uploads', req.file.filename);
+    res.status(200).json({ url: filePath });
+  } catch (error) {
+    res.status(400).send({ error: 'Failed to upload image' });
+  }
+});
+
+app.use('/uploads', express.static('uploads'));
+
 
 // login handling
 app.post('/login', async (req, res) => {
@@ -114,12 +139,7 @@ app.get('/users/:id', async (req, res) => {
 
 app.patch('/users/:id', async (req, res) => {
   const updates = Object.keys(req.body);
-  // const allowedUpdates = ['user', 'roll', 'email', 'name', 'associated_with', 'status', 'user_type', 'image', 'valid_till', 'timestamp'];
-  // const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
-
-  // if (!isValidOperation) {
-  //     return res.status(400).send({ error: 'Invalid updates!' });
-  // }
+  console.log(updates);
 
   try {
     const user = await User.findById(req.params.id);
@@ -209,7 +229,7 @@ app.get('/blogs', async (req, res) => {
 app.get('/blogs/:id', async (req, res) => {
   const _id = req.params.id;
   try {
-    const blog = await Blog.findById(_id);
+    const blog = await Blog.findById(_id).populate('added_by', 'name email');;
     if (!blog) {
       return res.status(404).send();
     }
@@ -223,15 +243,18 @@ app.get('/blogs/user/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
-      return res.status(404).send();
+      return res.status(404).send({ message: "User not found" });
     }
 
-    await user.populate('blogs').execPopulate();
-    res.send(user.blogs);
+    // Assuming 'blogs' is a field in the User schema that references Blog documents
+    const blogs = await Blog.find({ added_by: req.params.id });
+
+    res.send(blogs);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ message: "Server error", error });
   }
 });
+
  
 
 // Authors 

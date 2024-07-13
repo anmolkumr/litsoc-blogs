@@ -17,9 +17,11 @@
     "react-bootstrap-sweetalert": "^5.2.0",
     "react-cookies": "^0.1.1",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
+    "react-web-share": "^2.0.2",
     "sweetalert2": "^11.12.1",
     "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^2.1.4"

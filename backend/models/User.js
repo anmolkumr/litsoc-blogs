@@ -7,23 +7,27 @@ const blogUsersSchema = new mongoose.Schema({
   name: { type: String, required: true },
   associatedWith: { type: String, required: true },
   status: { type: String, default: 'pending' },
-  user_type: { type: String, default:'normal', },
+  user_type: { type: String, default: 'normal', },
   image: { type: String },
-  valid_till: { type: Date, default: Date.now},
+  valid_till: { type: Date, default: Date.now },
   timestamp: { type: Date, default: Date.now },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  bio: { type: String, default: 'Hey there! I am using LitSoc Blog.' },
+  instagram: { type: String },
+  whatsapp: { type: String },
+
 });
 
-blogUsersSchema.pre('save', async function(next) {
-    if (this.isModified('password')) {
-      this.password = await bcrypt.hash(this.password, 8);
-    }
-    next();
-  });
+blogUsersSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 8);
+  }
+  next();
+});
 
-  blogUsersSchema.methods.comparePassword = function(password) {
-    return bcrypt.compare(password, this.password);
-  };
+blogUsersSchema.methods.comparePassword = function (password) {
+  return bcrypt.compare(password, this.password);
+};
 
 const BlogUsers = mongoose.model('BlogUsers', blogUsersSchema);
 

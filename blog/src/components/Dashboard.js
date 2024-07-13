@@ -21,6 +21,7 @@ function Dashboard() {
         const decoded = jwtDecode(token);
         console.log(decoded);
         var name = decoded.name;
+        var uid = decoded._id;
 
     }
 
@@ -115,6 +116,7 @@ function Dashboard() {
             <MDBContainer className="my-3">
                 <h2 className="mb-4">Dashboard</h2>
                 <h5>Welcome {name}</h5>
+            <MDBBtn tag={Link} to={`update/${uid}`}color="primary" className="mb-3 me-1"><MDBIcon fas icon="pencil" /> Edit Profile</MDBBtn>
                 <MDBBtn tag={Link} to="/create-blog" color="success" className="mb-3 me-1"><MDBIcon fas icon="plus" /> Create New Blog</MDBBtn>
                 <MDBBtn color="danger" onClick={logout} className="mb-3 me-1">Logout</MDBBtn>
 

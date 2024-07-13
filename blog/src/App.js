@@ -13,6 +13,7 @@ import UpdateBlogPage from './pages/UpdateBlogPage';
 import PostPage from './pages/Post';
 import Authors from './pages/Authors';
 import AuthorPage from './pages/AuthorProfile';
+import UpdateProfile from './components/UpdateProfile';
 // import PrivateRoute from './components/PrivateRoute';
 
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/signup" element={<SignupPage/>} />
         <Route path="/dashboard" element={<DashboardPage/>} />
+        <Route path='/dashboard/update/:id' element={<UpdateProfile/>} />
         <Route path="/authors" element={<Authors/>} /> 
         <Route path="/author/:id" element={<AuthorPage/>} /> 
         <Route path="/create-blog" element={<CreateBlogPage/>} />

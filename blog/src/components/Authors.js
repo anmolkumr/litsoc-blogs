@@ -38,7 +38,7 @@ const Authors = () => {
                                             <div className="d-flex text-black">
                                                 <div className="flex-shrink-0">
 
-                                                    <MDBCardImage src={author.profileImage || defaultImage}
+                                                    <MDBCardImage src={author.image ? `${process.env.REACT_APP_API}/${author.image}` : 'https://via.placeholder.com/150'}
                                                         alt="Author"
                                                         style={{ width: '150px', objectFit: 'cover' }} fluid />
                                                 </div>

@@ -1,15 +1,16 @@
 body {
   margin: 0;
- 
+
 }
-.dm-regular{
+
+.dm-regular {
   font-family: 'DM Sans', sans-serif;
   font-weight: 300;
   font-style: normal;
 }
 
-.bg-login{
- background-image: url('../public/bg-img.jpg');
+.bg-login {
+  background-image: url('../public/bg-img.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -20,7 +21,7 @@ body {
 .poppins-light {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
-  font-style:normal;
+  font-style: normal;
 }
 
 .poppins-regular {
@@ -34,6 +35,7 @@ body {
   font-weight: 500;
   font-style: normal;
 }
+
 .sahitya-regular {
   font-family: "Sahitya", serif;
   font-weight: 400;
@@ -45,14 +47,15 @@ body {
   font-weight: 700;
   font-style: normal;
 }
+
 .literata-regular {
-  font-family:  "Literata", serif;
+  font-family: "Literata", serif;
   font-weight: 400;
   font-style: normal;
 }
 
 .literata-bold {
-  font-family:  "Literata", serif;
+  font-family: "Literata", serif;
   font-weight: 700;
   font-style: normal;
 }
@@ -130,23 +133,42 @@ body {
 }
 
 
-.bg-card{
+.bg-card {
   background: #382e22;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+
+}
+
+.blog-hero {
+  height:300px;
+  width: 100%;
+  object-fit: cover;
+}
+.blog-author{
+  
+
 }
 
 .author-card-container {
-  background-image: url('https://random-image-pepebigotes.vercel.app/api/random-image'); /* Replace with your background image path */
+  background-image: url('https://random-image-pepebigotes.vercel.app/api/random-image');
+  /* Replace with your background image path */
   background-size: cover;
   background-position: center;
- 
+  height: 38vh;
+  background-blend-mode: darken;
 }
-.filter{
-  backdrop-filter: brightness(0.7);
-  /* backdrop-filter: blur(10px); */
+
+.filter {
+  /* backdrop-filter: brightness(0.7); */
+  backdrop-filter: blur(5px);
   padding: 20px;
+  height: 38vh;
+  display: flex;
+  align-items: center;
+
 }
+
 .author-card {
   background-color: transparent;
   border: none;
@@ -163,6 +185,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   margin: 20px;
+  border:4px solid #c39f32;
 }
 
 .author-info {
@@ -195,6 +218,18 @@ body {
   color: #fff;
 }
 
+.author-social-icons {
+  display: flex;
+  gap: 10px;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.author-icon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
 .poem-list-container {
   /* max-width: 800px; */
   margin: auto;
@@ -219,9 +254,13 @@ body {
 
 .poem-title {
   font-size: 1rem;
-  font-weight: normal
-  ;
+  font-weight: normal;
   margin: 0;
+}
+
+.poem-title:hover {
+  color: #9b6700;
+  font-weight: 600;
 }
 
 .poem-description {
@@ -238,4 +277,56 @@ body {
 
 .poem-action:hover {
   color: #555;
+}
+
+@media screen and (max-width: 768px) {
+  .author-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: auto;
+  }
+
+  .author-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .author-name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .author-details {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .author-date-location {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .author-description {
+    font-size: 1.1rem;
+    color: #fff;
+    text-align: center;
+  }
+
+  .author-social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    color: #fff;
+    margin-top: 10px;
+  }
+
 }
