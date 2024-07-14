@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { MDBContainer, MDBInput, MDBBtn, MDBInputGroup } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBInput, MDBBtn, MDBInputGroup, MDBIcon, MDBCardText } from 'mdb-react-ui-kit';
 import axios from 'axios';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
@@ -158,12 +158,14 @@ function BlogEditor({ existingBlog }) {
     <>
       <Navbar />
       <MDBContainer className="my-5">
-        <h2>{existingBlog ? 'Update Blog' : 'Create Blog'}</h2>
-        <MDBInput label="Title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="mb-3" />
+        <h4>{existingBlog ? 'Update Blog' : 'New Blog'}</h4><br/>
+        
+        <MDBInput size='lg' label="Title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="mb-3" /><br/>
 
+        <span>Upload Featured Image</span>
         <MDBInputGroup className="mb-3">
-          <MDBInput type="text" id="eventPosterUrlInput" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
-          <MDBBtn color="primary" onClick={uploadImage} id="uploadImageButton">Select Image</MDBBtn>
+          <MDBBtn color="primary" style={{width:'200px' }}onClick={uploadImage} id="uploadImageButton"><MDBIcon fas icon='upload'></MDBIcon> Upload Image</MDBBtn>
+          <MDBInput type="text" size='lg' disabled id="eventPosterUrlInput" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
         </MDBInputGroup>
         <div class="progress mt-3" style={{ display: 'none' }}>
           <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
@@ -175,14 +177,17 @@ function BlogEditor({ existingBlog }) {
                     <button type="button" class="btn btn-primary" onclick="uploadImage()" id="uploadImageButton">Upload
                     Image</button>
                   </div> */}
-
+        <span>Blog Content</span>
         <ReactQuill
           value={content}
           onChange={setContent}
           modules={modules}
           formats={formats}
           className="mb-3"
+          placeholder='Write your amazing content here...'
+          style={{ height: '200px' }}
         />
+        <br/>
         <MDBBtn color="primary" onClick={handleSave} disabled={isLoading}>
           {isLoading ? 'Saving...' : 'Save'}
         </MDBBtn>

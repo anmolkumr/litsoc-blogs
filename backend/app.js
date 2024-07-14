@@ -19,15 +19,16 @@ app.use(cookieParser());
 const secretKey = 'anmolqwe123';
 dotenv.config();
 
-// mongoose.connect(process.env.MONGO_URL_LOCAL)
-//   .then(() => console.log('MongoDB is connected now!!'))
-//   .catch(err => console.log(err));
-
-mongoose.connect(process.env.MONGO_URL_PROD)
+mongoose.connect(process.env.MONGO_URL_LOCAL)
   .then(() => console.log('MongoDB is connected now!!'))
   .catch(err => console.log(err));
 
+// mongoose.connect(process.env.MONGO_URL_PROD)
+//   .then(() => console.log('MongoDB is connected now!!'))
+//   .catch(err => console.log(err));
+
 const User = require('./models/User');
+const Comment = require('./models/Comment');
 
 // Auth middleware
 
@@ -35,7 +36,7 @@ const User = require('./models/User');
 
 function authenticateUser(req, res, next) {
   let token = req.header("Authorization");
-  console.log(token);
+  // console.log(token);
   if (!token) {
     return res.status(401).json({ message: "Unauthorized. Token is missing." });
   }
@@ -43,6 +44,7 @@ function authenticateUser(req, res, next) {
   try {
     const verified = jwt.verify(token, secretKey);
     req.user = verified;
+    // console.log(verified);
 
     next();
   } catch (err) {
@@ -323,6 +325,43 @@ app.delete('/blogs/:id', async (req, res) => {
     res.send(blog);
   } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+// Get all comments for a blog post
+app.get('/blogs/:id/comments', async (req, res) => {
+  try {
+      const comments = await Comment.find({ blog: req.params.id }).populate('added_by', 'name').exec();
+      res.json(comments);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+
+app.post('/blogs/:id/comments', authenticateUser, async (req, res) => {
+  const { content } = req.body;
+
+  try {
+      const blog = await Blog.findById(req.params.id);
+      if (!blog) {
+          return res.status(404).json({ message: 'Blog post not found' });
+      }
+      // console.log(req.user._id);
+      const user = await User.findById(req.user._id);
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      const newComment = new Comment({
+          content,
+          added_by: req.user._id,
+          blog: req.params.id
+      });
+
+      const savedComment = await newComment.save();
+      res.status(201).json(await savedComment.populate('added_by', 'name'));
+  } catch (error) {
+      res.status(400).json({ message: error.message });
   }
 });
 

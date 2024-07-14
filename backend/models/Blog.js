@@ -9,7 +9,11 @@ const blogSchema = new mongoose.Schema({
   blogmaster_approval: { type: Boolean, default: false },
   saved_at: { type: Date, default: Date.now },
   status: { type: String, default: 'unpublished' },
-  published_at: { type: Date }
+  published_at: { type: Date },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+  }]
 });
 
 const Blog = mongoose.model('Blog', blogSchema);

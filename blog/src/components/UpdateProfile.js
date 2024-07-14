@@ -41,6 +41,19 @@ const UpdateProfile = () => {
       .catch(error => {
         console.error('Error uploading image:', error);
       });
+
+      // fetch('https://api.imgbb.com/1/upload?key=986224ae6ff92821fe7351451654422d', {
+      //   method: 'POST',
+        
+      //   body: formData,
+      // })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     setImage(data.url); // Assuming the response contains the image URL
+      //   })
+      //   .catch(error => {
+      //     console.error('Error uploading image:', error);
+      //   });
   };
 
   const handleSubmit = (e) => {
