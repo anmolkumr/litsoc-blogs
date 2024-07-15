@@ -9,6 +9,7 @@ import { jwtDecode } from "jwt-decode";
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { ShimmerSectionHeader } from 'react-shimmer-effects';
 const MySwal = withReactContent(Swal)
 
 function Dashboard() {
@@ -123,9 +124,7 @@ function Dashboard() {
                 {loading ? (
                     <>
                         <div className="text-center m-5">
-                            <MDBSpinner role='status' className='text-center'>
-                                <span className='visually-hidden'>Loading...</span>
-                            </MDBSpinner>
+                        <ShimmerSectionHeader center/>
                         </div>
                     </>
                 ) : (

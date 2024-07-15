@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow, MDBCardFooter, MDBBtn, MDBSpinner } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
+import { ShimmerPostItem, ShimmerPostList } from "react-shimmer-effects";
 const he = require('he');
 
 const BlogCards = () => {
@@ -33,10 +34,11 @@ const BlogCards = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center mt-5">
-                <MDBSpinner role="status" size="lg">
-                    <span className="visually-hidden">Loading...</span>
-                </MDBSpinner>
+            <div className=''>
+                       <ShimmerPostItem card title text cta />
+                       <ShimmerPostItem card title text cta />
+                      
+
             </div>
         );
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -50,7 +51,8 @@ export default function Footer() {
             <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold mb-4'>Club Secretary</h6>
                 <p>
-                  <a href='#!' className='text-reset'>Anmol Kumar <br/> +91 8409467165</a>
+                  <span href='#!' className='text-reset'>Anmol Kumar</span><br/>
+                <Link className='text-dark' to={'tel:8409467165'}> +91 8409467165 </Link>
                 </p>
                 
 
@@ -65,10 +67,11 @@ export default function Footer() {
               </p>
               <p>
                 <MDBIcon icon="envelope" className="me-3" />
-                litsoc[at]iitgn.ac.in
+                <Link className='text-dark' to={'mailto:litsoc@iitgn.ac.in'}>litsoc[at]iitgn.ac.in</Link>
+                
               </p>
               <p>
-                <MDBIcon icon="phone" className="me-3" /> +91 8409467165
+                <MDBIcon icon="phone" className="me-3" /><Link className='text-dark' to={'tel:8409467165'}> +91 8409467165 </Link>
               </p>
              
             </MDBCol>
