@@ -24,7 +24,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <AllBlogs />  
+      <AllBlogs />
       <Footer />
     </>
   );

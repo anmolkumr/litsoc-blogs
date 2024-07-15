@@ -178,6 +178,11 @@ function Dashboard() {
                                         <MDBBtn tag={Link} to={`/update-blog/${blog._id}`} color="warning" className="mx-2 mb-1">
                                             <MDBIcon fas icon="edit" />
                                         </MDBBtn>
+
+                                        <MDBBtn tag={Link} to={`/post/${blog._id}`} color="primary" className="mx-2 mb-1">
+                                            <MDBIcon fas icon="eye" />
+                                        </MDBBtn>
+
                                         <MDBBtn color="danger" onClick={() => handleDelete(blog._id)}>
                                             <MDBIcon fas icon="trash" />
                                         </MDBBtn>

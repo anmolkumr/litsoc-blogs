@@ -9,7 +9,7 @@ import Navbar from './Navbar';
 const Authors = () => {
     const [authors, setAuthors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const defaultImage = 'https://via.placeholder.com/150';
+    const defaultImage = 'https://i.ibb.co/FzKQpb2/Lit-Soc-logo-modified.png';
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/authors`, {
@@ -49,7 +49,7 @@ const Authors = () => {
                                     <MDBCardBody className="p-4">
                                         <div className="d-flex text-black">
                                             <div className="flex-shrink-0">
-                                                <MDBCardImage src={author.image ? `${process.env.REACT_APP_API}/${author.image}` : defaultImage}
+                                                <MDBCardImage src={author.image ? `${author.image}` : 'https://i.ibb.co/FzKQpb2/Lit-Soc-logo-modified.png'}
                                                     alt="Author"
                                                     style={{ width: '150px', objectFit: 'cover' }} fluid />
                                             </div>

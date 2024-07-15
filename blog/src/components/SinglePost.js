@@ -14,6 +14,7 @@ const SinglePost = () => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(true);
+    const [recent, setRecent] = useState([]);
 
     useEffect(() => {
         // Fetch blog details
@@ -22,12 +23,24 @@ const SinglePost = () => {
                 console.log('Blog fetched successfully:', response.data);
                 setBlog(response.data);
                 document.title = response.data.title + " | " + response.data.added_by.name + " | LitSoc IITGN";
+                var usersid = response.data.added_by._id;
+                axios.get(`${process.env.REACT_APP_API}/blogs/user/${usersid}`, {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                })
+                    .then(response => {
+                        console.log('FEtched by Users successfully:', response.data);
+                        setRecent(response.data);
+                    })
+                    .catch(error => {
+                        console.error('There was an error fetching the comments data!', error);
+                    });
             })
             .catch(error => {
                 console.error('There was an error fetching the blog data!', error);
             });
 
-        // Fetch comments
+
+
         axios.get(`${process.env.REACT_APP_API}/blogs/${id}/comments`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         })
@@ -55,7 +68,19 @@ const SinglePost = () => {
             });
     };
 
-    const defaultImage = 'https://via.placeholder.com/150';
+    const checkLogin = () => {
+        if (!localStorage.getItem('token')) {
+            alert('Please login to comment');
+            document.getElementById('commentbox').disabled = true;
+
+
+        }
+
+    };
+
+
+
+    const defaultImage = 'https://i.ibb.co/rfvhjWL/The-Lit-Soc-Blog.png';
 
     if (!blog) {
         return <div>Loading...</div>;
@@ -73,10 +98,14 @@ const SinglePost = () => {
 
                     <div shadow='0' className='blog-author ms-2 mt-4'>
                         <span>Author : <Link to={`/author/${blog.added_by._id}`}>{blog.added_by.name}</Link>
-                           </span><br></br>
+                        </span><br></br>
                         <span>
                             <MDBIcon far icon="calendar-alt" /> {
-                                new Date(blog.saved_at).toLocaleString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' })}
+                                new Date(blog.saved_at).toLocaleString('en-US', {
+                                    hour12: true, hour: 'numeric', minute: 'numeric', year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                })}
 
                         </span>
                         <br />
@@ -105,12 +134,18 @@ const SinglePost = () => {
                     </MDBCol>
                     <MDBCol md="3">
                         <MDBCard shadow='0' className='mt-4 bg-secondary bg-opacity-10'>
-                            <MDBCardBody>
-                                <p className='text-center poppins-medium'>More From {blog.added_by.name}</p>
-                                <MDBCardText>
-                                    {blog.added_by.bio}
-                                </MDBCardText>
-                            </MDBCardBody>
+                            <p className='pt-4 text-center poppins-medium'>More From the Author</p>
+
+                            {recent.map((recent, index) => (
+                                <div key={index} className="mb-3">
+                                    <Link to={`/post/${recent._id}`}>
+                                        <MDBCardText className='text-center text-dark'>{recent.title}</MDBCardText>
+                                    </Link>
+
+                                </div>
+                            ))}
+
+
                         </MDBCard>
                     </MDBCol>
                 </MDBRow>
@@ -128,11 +163,14 @@ const SinglePost = () => {
                         <MDBCardBody>
                             <MDBCardTitle>Add a Comment</MDBCardTitle>
                             <MDBCardText>
+
                                 <textarea
                                     className="form-control"
                                     value={newComment}
                                     onChange={(e) => setNewComment(e.target.value)}
                                     rows="3"
+                                    onClick={checkLogin}
+                                    id='commentbox'
                                     placeholder="Write your comment here..."
                                 />
                             </MDBCardText>

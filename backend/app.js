@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const multer = require('multer');
 const path = require('path');
+const url = require('url');
 
 const app = express();
 const port = 4000;
@@ -65,7 +66,12 @@ const upload = multer({ storage: storage });
 app.post('/upload-image', upload.single('image'), (req, res) => {
   try {
     const filePath = path.join('uploads', req.file.filename);
-    res.status(200).json({ url: filePath });
+    const fullUrl = url.format({
+      protocol: req.protocol,
+      host: req.get('host'),
+      pathname: filePath
+    });
+    res.status(200).json({ url: fullUrl });
   } catch (error) {
     res.status(400).send({ error: 'Failed to upload image' });
   }
@@ -249,7 +255,7 @@ app.get('/blogs/user/:id', async (req, res) => {
     }
 
     // Assuming 'blogs' is a field in the User schema that references Blog documents
-    const blogs = await Blog.find({ added_by: req.params.id });
+    const blogs = await Blog.find({ added_by: req.params.id, status: 'published' });
 
     res.send(blogs);
   } catch (error) {

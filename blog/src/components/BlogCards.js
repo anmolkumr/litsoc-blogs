@@ -7,7 +7,7 @@ const he = require('he');
 const BlogCards = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const defaultImage = 'https://via.placeholder.com/150';
+    const defaultImage = 'https://i.ibb.co/rfvhjWL/The-Lit-Soc-Blog.png';
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/blogs`, {
@@ -29,7 +29,7 @@ const BlogCards = () => {
         blog.content = he.decode(blog.content);
     });
 
-    const publishedBlogs = blogs.filter(blog => blog.status === 'published');
+    const publishedBlogs = blogs.filter(blog => blog.status === 'published').sort((a, b) => new Date(b.saved_at) - new Date(a.saved_at));;
 
     if (loading) {
         return (
@@ -70,7 +70,12 @@ const BlogCards = () => {
                             </Link>
                         </MDBCardBody>
                         <MDBCardFooter className='literata-regular'>
-                            <small className="text-muted">Last updated {new Date(blog.saved_at).toLocaleString()}</small><br />
+                            <small className="text-muted">Last updated &nbsp;  
+                                {new Date(blog.saved_at).toLocaleString('en-US', {
+                                    hour12: true, hour: 'numeric', minute: 'numeric', year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                })}</small><br />
                             <small className="text-muted">
                                
                                 Author:  <Link to={`/author/${blog.added_by._id}`}>

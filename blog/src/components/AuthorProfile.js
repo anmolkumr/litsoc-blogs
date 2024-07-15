@@ -56,7 +56,7 @@ function AuthorProfile() {
                             <div background="transparent" className="author-card">
                                 <div className="d-flex flex-column flex-xl-row">
                                     <MDBCardImage
-                                        src={author.image ? `${process.env.REACT_APP_API}/${author.image}` : 'https://via.placeholder.com/150'}
+                                        src={author.image ? `${author.image}` : 'https://i.ibb.co/FzKQpb2/Lit-Soc-logo-modified.png'}
                                         alt="Author"
                                         className="author-image"
                                     />

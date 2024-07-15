@@ -71,6 +71,11 @@ export default function Navbar() {
 
               </MDBNavbarItem>
 
+              <MDBNavbarItem>
+              <MDBNavbarLink href='/developers'>For Developers</MDBNavbarLink>
+
+              </MDBNavbarItem>
+
             </MDBNavbarNav>
             
             {/* <div className='d-flex flex-row'>

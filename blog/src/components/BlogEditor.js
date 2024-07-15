@@ -164,7 +164,7 @@ function BlogEditor({ existingBlog }) {
 
         <span>Upload Featured Image</span>
         <MDBInputGroup className="mb-3">
-          <MDBBtn color="primary" style={{width:'200px' }}onClick={uploadImage} id="uploadImageButton"><MDBIcon fas icon='upload'></MDBIcon> Upload Image</MDBBtn>
+          <MDBBtn color="primary" style={{minWidth:'200px' }} onClick={uploadImage} id="uploadImageButton"><MDBIcon fas icon='upload'></MDBIcon> Upload Image</MDBBtn>
           <MDBInput type="text" size='lg' disabled id="eventPosterUrlInput" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
         </MDBInputGroup>
         <div class="progress mt-3" style={{ display: 'none' }}>
