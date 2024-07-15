@@ -20,13 +20,13 @@ app.use(cookieParser());
 const secretKey = 'anmolqwe123';
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URL_LOCAL)
-  .then(() => console.log('MongoDB is connected now!!'))
-  .catch(err => console.log(err));
-
-// mongoose.connect(process.env.MONGO_URL_PROD)
+// mongoose.connect(process.env.MONGO_URL_LOCAL)
 //   .then(() => console.log('MongoDB is connected now!!'))
 //   .catch(err => console.log(err));
+
+mongoose.connect(process.env.MONGO_URL_PROD)
+  .then(() => console.log('MongoDB is connected now!!'))
+  .catch(err => console.log(err));
 
 const User = require('./models/User');
 const Comment = require('./models/Comment');
