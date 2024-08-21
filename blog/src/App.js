@@ -16,6 +16,7 @@ import AuthorPage from './pages/AuthorProfile';
 import UpdateProfile from './components/UpdateProfile';
 import About from './pages/About';
 import Developers from './components/Developers';
+import ApprovalsPage from './pages/Approvals';
 // import PrivateRoute from './components/PrivateRoute';
 
 
@@ -36,6 +37,7 @@ function App() {
         <Route path="/developers" element={<Developers/>} />
         <Route path="/about" element={<About/>} />
         <Route path="/update-blog/:id" element={<UpdateBlogPage/>} />
+        <Route path="/approvals" element={<ApprovalsPage/>} />
       </Routes>
     </Router>
   );

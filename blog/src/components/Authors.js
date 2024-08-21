@@ -39,19 +39,19 @@ const Authors = () => {
     return (
         <>
             <Navbar />
-            <div className="">
+            <div className='literata-regular'>
                 <h3 className="text-center mt-5">Authors</h3>
-                <MDBContainer>
+                <MDBContainer className='literata-regular'>
                     <MDBRow className="row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3 justify-content-center">
                         {authors.map(author => (
                             <MDBCol key={author._id}>
-                                <MDBCard style={{ borderRadius: '15px' }}>
+                                <MDBCard shadow='0' className='bg-secondary bg-opacity-10 ' style={{ borderRadius: '10px' }}>
                                     <MDBCardBody className="p-4">
                                         <div className="d-flex text-black">
                                             <div className="flex-shrink-0">
                                                 <MDBCardImage src={author.image ? `${author.image}` : 'https://i.ibb.co/FzKQpb2/Lit-Soc-logo-modified.png'}
                                                     alt="Author"
-                                                    style={{ width: '150px', objectFit: 'cover' }} fluid />
+                                                    style={{ width: '130px', objectFit: 'cover', borderRadius: '10px'  }} fluid />
                                             </div>
                                             <div className="flex-grow-1 ms-3">
                                                 <MDBCardTitle>{author.name}</MDBCardTitle>
@@ -60,7 +60,7 @@ const Authors = () => {
                                                 </MDBCardText>
                                                 <div className="d-flex pt-1">
                                                     <Link to={`/author/${author._id}`}>
-                                                        <MDBBtn className="flex-grow-1">Visit Profile</MDBBtn>
+                                                        <MDBBtn outline className="flex-grow-1">Visit Profile</MDBBtn>
                                                     </Link>
                                                 </div>
                                             </div>

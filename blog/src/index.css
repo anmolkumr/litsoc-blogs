@@ -237,6 +237,10 @@ blockquote{
   margin-right: 10px;
 }
 
+.authcard{
+  background: #382e22;
+}
+
 .poem-list-container {
   /* max-width: 800px; */
   margin: auto;

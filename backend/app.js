@@ -213,7 +213,7 @@ app.get('/blogs', async (req, res) => {
     console.log('Fetching blogs with status published...');
 
     // Fetch blogs with status 'published' and populate the 'added_by' field
-    const blogs = await Blog.find({ status: 'published' }).populate('added_by', 'name email');
+    const blogs = await Blog.find({ status: 'published', club_secy_approval:'true' }).populate('added_by', 'name email');
 
     console.log('Fetched blogs:', blogs);
 
@@ -296,6 +296,7 @@ app.get('/authors', async (req, res) => {
   }
 });
 
+//Writers Sections
 
 app.get('/admin/blogs', authenticateUser, async (req, res) => {
   try {
@@ -333,6 +334,35 @@ app.delete('/blogs/:id', async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// Club Secy Section
+
+app.get('/approval/blogs', authenticateUser, async (req, res) => {
+  try {
+    const blogs = await Blog.find({ club_secy_approval: false });
+    res.send(blogs);
+  } catch (error) {
+    res.status(500).send
+  }
+});
+
+app.patch('/blogs/approval/:id', authenticateUser, async (req, res) => {
+  const updates = Object.keys(req.body);
+  try {
+    const blog = await Blog.findOne({ _id: req.params.id });
+
+    if (!blog) {
+      return res.status(404).send();
+    }
+
+    updates.forEach((update) => blog[update] = req.body[update]);
+    await blog.save();
+    res.send(blog);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 
 // Get all comments for a blog post
 app.get('/blogs/:id/comments', async (req, res) => {

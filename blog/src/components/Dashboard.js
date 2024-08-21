@@ -22,6 +22,7 @@ function Dashboard() {
         const decoded = jwtDecode(token);
         console.log(decoded);
         var name = decoded.name;
+        var email = decoded.email;
         var uid = decoded._id;
 
     }
@@ -120,6 +121,11 @@ function Dashboard() {
             <MDBBtn tag={Link} to={`update/${uid}`}color="primary" className="mb-3 me-1"><MDBIcon fas icon="pencil" /> Edit Profile</MDBBtn>
                 <MDBBtn tag={Link} to="/create-blog" color="success" className="mb-3 me-1"><MDBIcon fas icon="plus" /> Create New Blog</MDBBtn>
                 <MDBBtn color="danger" onClick={logout} className="mb-3 me-1">Logout</MDBBtn>
+                {email === 'litsoc@iitgn.ac.in' ? (
+                    <MDBBtn tag={Link} to="/approvals" color="warning" className="mb-3 me-1">Approvals</MDBBtn>
+                ) : (
+                    <></>
+                )}
 
                 {loading ? (
                     <>

@@ -52,7 +52,7 @@ function AuthorProfile() {
                     </div>
                 ) : (
                     author && (
-                        <div className="filter">
+                        <div className="filter" >
                             <div background="transparent" className="author-card">
                                 <div className="d-flex flex-column flex-xl-row">
                                     <MDBCardImage
@@ -87,7 +87,7 @@ function AuthorProfile() {
                 <MDBRow>
                     <MDBCol sm='12' md='9'>
                         <div className="poem-list-container">
-                            <h3 className="mt-5 roboto-regular">Blogs</h3>
+                            <h5 className="mt-5 literata-bold">Blogs</h5>
                             {loadingPoems ? (
                                 <div className="d-flex justify-content-center mt-5">
                                     <MDBSpinner role="status" size="lg">
@@ -110,7 +110,7 @@ function AuthorProfile() {
                     </MDBCol>
                     <MDBCol sm='12' md='3'>
                         <div className="poem-list-container">
-                            <h3 className="mt-5 roboto-regular">Popular Posts</h3>
+                            <h5 className="mt-5 literata-regular">Popular Posts</h5>
                             {/* Add content for popular posts here */}
                         </div>
                     </MDBCol>

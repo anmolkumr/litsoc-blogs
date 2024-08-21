@@ -54,6 +54,7 @@ export default function Navbar() {
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
+          
                 <MDBNavbarLink href='/authors'>Explore Authors</MDBNavbarLink>
               </MDBNavbarItem>
               

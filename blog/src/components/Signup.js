@@ -29,7 +29,6 @@ function Signup() {
       }
       const response = await axios.post(`${process.env.REACT_APP_API}/users`, newUser);
       console.log("User created: ", response.data); 
-      // alert("User created successfully!");
 
       MySwal.fire({
         title: <p>User created successfully!</p>,
