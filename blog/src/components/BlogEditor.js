@@ -19,7 +19,7 @@ function BlogEditor({ existingBlog }) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const userId = localStorage.getItem('username');
-  console.log("User from local" + userId);
+  // console.log("User from local" + userId);
 
   useEffect(() => {
     if (existingBlog && existingBlog.featured_img) {
@@ -28,6 +28,15 @@ function BlogEditor({ existingBlog }) {
   }, [existingBlog]);
 
   const handleSave = async () => {
+
+    //check if title and content are empty
+    if (!title || !content) {
+      Swal.fire({
+        title: "Empty Fields",
+        text: "Please fill in the title and content fields",
+        icon: "error"
+      })};
+      
 
     setIsLoading(true);
     const blogData = {
@@ -131,7 +140,7 @@ function BlogEditor({ existingBlog }) {
         },
         onUploadProgress: function (progressEvent) {
           const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          progressBar.style.display = 'block';
+          progressBar.style.display = 'none';
           progressBarText.style.width = progress + '%';
           progressBarText.textContent = progress + '%';
         }
@@ -164,7 +173,7 @@ function BlogEditor({ existingBlog }) {
         <MDBInput size='lg' label="Title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="mb-3" /><br/>
 
         <span>Upload Featured Image</span>
-        <MDBInputGroup className="mb-3">
+        <MDBInputGroup className="mb-3 mt-3">
           <MDBBtn color="primary" style={{minWidth:'200px' }} onClick={uploadImage} id="uploadImageButton"><MDBIcon fas icon='upload'></MDBIcon> Upload Image</MDBBtn>
           <MDBInput type="text" size='lg' disabled id="eventPosterUrlInput" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
         </MDBInputGroup>

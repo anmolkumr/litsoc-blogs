@@ -34,7 +34,8 @@ function Approvals() {
     const handleStatus = async (id) => {
         try {
             await axios.patch(`${process.env.REACT_APP_API}/blogs/${id}`, {
-                club_secy_approval: true
+                club_secy_approval: true,
+                status: 'published'
             }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`

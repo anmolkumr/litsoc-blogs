@@ -52,22 +52,23 @@ function Signup() {
     <>
       <Navbar />
     <MDBContainer className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-      <MDBCard style={{ maxWidth: '400px', width: '100%' }}>
+      <MDBCard style={{ maxWidth: '500px', width: '100%' }}>
         <MDBCardBody>
           <h2 className="text-center mb-4">Signup</h2>
+          
           <MDBInput
-            label="Roll"
+            label="Roll Number"
             type="tel"
             value={roll}
             onChange={(e) => setRoll(e.target.value)}
-            className="mb-3"
+            className="mb-4"
             />
           <MDBInput
             label="Name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mb-3"
+            className="mb-4"
           />
           
           <MDBInput
@@ -75,21 +76,21 @@ function Signup() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mb-3"
+            className="mb-4"
             />
           <MDBInput
             label="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mb-3"
+            className="mb-4"
             />
              <MDBInput
             label="Club Name/Associated With"
             type="text"
             value={associatedWith}
             onChange={(e) => setAssociatedWith(e.target.value)}
-            className="mb-3"
+            className="mb-4"
             disabled
             />
           <MDBBtn

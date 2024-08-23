@@ -22,12 +22,12 @@ export default function Navbar() {
   const token = cookie.load('token');
   if(token){
     const decoded = jwtDecode(token);
-    console.log(decoded);
+    // console.log(decoded);
     localStorage.setItem('username', decoded.name);
 
   }
   else{
-    console.log("Not Logged In");
+    // console.log("Not Logged In");
   }
   return (
     <>

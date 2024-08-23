@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import Navbar from './Navbar';
 import cookie from 'react-cookies';
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
+
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -13,18 +15,30 @@ import { ShimmerSectionHeader } from 'react-shimmer-effects';
 const MySwal = withReactContent(Swal)
 
 function Dashboard() {
-    const { user, logout } = useAuth();
+    // const { user, logout } = useAuth();
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    if (token) {
+    if (!token) {
+
+        Swal.fire({
+            title: "Unauthorized",
+            text: "You need to login first!",
+            icon: "error"
+        });
+
+        navigate('/login');
+
+    }
+    else {
 
         const decoded = jwtDecode(token);
-        console.log(decoded);
+        // console.log(decoded);
         var name = decoded.name;
         var email = decoded.email;
         var uid = decoded._id;
-
+        
     }
 
     useEffect(() => {
@@ -88,7 +102,7 @@ function Dashboard() {
     const handleStatus = async (id) => {
         try {
             await axios.patch(`${process.env.REACT_APP_API}/blogs/${id}`, {
-                status: 'published'
+                status: 'Sent for Approval'
             }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -96,14 +110,14 @@ function Dashboard() {
             }
             );
             Swal.fire({
-                title: "Yayy!!",
-                text: "Your Blog has been Published!",
+                title: "",
+                text: "Your Blog has been Sent for Approval!",
                 icon: "success"
             });
 
             setBlogs(blogs.map(blog => {
                 if (blog._id === id) {
-                    blog.status = 'published';
+                    blog.status = 'Sent for Approval';
                 }
                 return blog;
             }));
@@ -112,13 +126,30 @@ function Dashboard() {
         }
     }
 
+    const logout = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, logout!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('token');
+                navigate('/login');
+            }
+        });
+    };
+
     return (
         <>
             <Navbar />
             <MDBContainer className="my-3">
                 <h2 className="mb-4">Dashboard</h2>
                 <h5>Welcome {name}</h5>
-            <MDBBtn tag={Link} to={`update/${uid}`}color="primary" className="mb-3 me-1"><MDBIcon fas icon="pencil" /> Edit Profile</MDBBtn>
+                <MDBBtn tag={Link} to={`update/${uid}`} color="primary" className="mb-3 me-1"><MDBIcon fas icon="pencil" /> Edit Profile</MDBBtn>
                 <MDBBtn tag={Link} to="/create-blog" color="success" className="mb-3 me-1"><MDBIcon fas icon="plus" /> Create New Blog</MDBBtn>
                 <MDBBtn color="danger" onClick={logout} className="mb-3 me-1">Logout</MDBBtn>
                 {email === 'litsoc@iitgn.ac.in' ? (
@@ -130,7 +161,7 @@ function Dashboard() {
                 {loading ? (
                     <>
                         <div className="text-center m-5">
-                        <ShimmerSectionHeader center/>
+                            <ShimmerSectionHeader center />
                         </div>
                     </>
                 ) : (
@@ -158,8 +189,8 @@ function Dashboard() {
                                     <td className='text-center'>
 
 
-                                        {blog.status === "published" ? (
-                                            <><MDBTooltip tag='span' wrapperClass='d-inline-block' title='Already Published!!'>
+                                        {blog.status === "published" || blog.status === "Sent for Approval" ? (
+                                            <><MDBTooltip tag='span' wrapperClass='d-inline-block' title='Already Done'>
                                                 <MDBBtn color="info" disabled className="mx-2 mb-1">
                                                     <MDBIcon fas icon="check" />
                                                 </MDBBtn>
@@ -184,9 +215,9 @@ function Dashboard() {
                                             <MDBIcon fas icon="edit" />
                                         </MDBBtn>
 
-                                        <MDBBtn tag={Link} to={`/post/${blog._id}`} color="primary" className="mx-2 mb-1">
+                                        {/* <MDBBtn tag={Link} to={`/post/${blog._id}`} color="primary" className="mx-2 mb-1">
                                             <MDBIcon fas icon="eye" />
-                                        </MDBBtn>
+                                        </MDBBtn> */}
 
                                         <MDBBtn color="danger" onClick={() => handleDelete(blog._id)}>
                                             <MDBIcon fas icon="trash" />
