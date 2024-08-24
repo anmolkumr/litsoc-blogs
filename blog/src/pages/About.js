@@ -1,10 +1,11 @@
 import React from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBIcon } from 'mdb-react-ui-kit';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const About = () => {
     const members = [
-        { name: 'Anmol Kumar', position: 'Secretary', image: 'https://via.placeholder.com/150', bio: 'A brief bio about Anmol Kumar.' },
+        { name: 'Anmol Kumar', position: 'Secretary', image: 'https://i.ibb.co/PmhP77Q/image.jpg', bio: 'Half Engineerer, one-fourth Poet' },
         // Add more members as needed
     ];
 
@@ -37,7 +38,7 @@ const About = () => {
 
                 <MDBRow className="mb-5">
                     <MDBCol md="12">
-                        <h2 className="text-center mb-4">Our Team</h2>
+                        <h2 className="text-center mb-4">Team</h2>
                         <MDBRow>
                             {members.map((member, index) => (
                                 <MDBCol md="4" key={index} className="mb-4">
@@ -57,6 +58,7 @@ const About = () => {
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
+            <Footer />
         </>
     );
 };

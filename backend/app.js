@@ -255,7 +255,7 @@ app.get('/blogs/user/:id', async (req, res) => {
     }
 
     // Assuming 'blogs' is a field in the User schema that references Blog documents
-    const blogs = await Blog.find({ added_by: req.params.id, status: 'published' });
+    const blogs = await Blog.find({ added_by: req.params.id, status: 'published',club_secy_approval:'true' });
 
     res.send(blogs);
   } catch (error) {
