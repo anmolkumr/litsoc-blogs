@@ -100,7 +100,7 @@ function BlogEditor({ existingBlog }) {
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' },
       { 'indent': '-1' }, { 'indent': '+1' }],
-      ['link', 'image'],
+      ['link'],
       ['clean']
     ],
   };
@@ -195,9 +195,9 @@ function BlogEditor({ existingBlog }) {
           formats={formats}
           className="mb-3"
           placeholder='Write your amazing content here...'
-          style={{ height: '200px' }}
+          style={{ height: '350px' }}
         />
-        <br/>
+        <br/> <br/>
         <MDBBtn color="primary" onClick={handleSave} disabled={isLoading}>
           {isLoading ? 'Saving...' : 'Save'}
         </MDBBtn>

@@ -190,7 +190,10 @@ app.post('/blogs', authenticateUser, async (req, res) => {
 
 app.patch('/blogs/:id', authenticateUser, async (req, res) => {
   const updates = Object.keys(req.body);
-
+  console.log(updates);
+  if (updates.includes('club_secy_approval') && req.user.email !== 'litsoc@iitgn.ac.in') {
+    return res.status(403).send({ message: 'Unauthorized' });
+  }
   try {
     const blog = await Blog.findOne({ _id: req.params.id });
 
@@ -210,10 +213,9 @@ app.patch('/blogs/:id', authenticateUser, async (req, res) => {
 // Getting all blogs
 app.get('/blogs', async (req, res) => {
   try {
-    console.log('Fetching blogs with status published...');
+    console.log('Fetching blogs...');
 
-    // Fetch blogs with status 'published' and populate the 'added_by' field
-    const blogs = await Blog.find({ status: 'published', club_secy_approval:'true' }).populate('added_by', 'name email');
+    const blogs = await Blog.find({ status: 'published', club_secy_approval: 'true' }).populate('added_by', 'name email');
 
     console.log('Fetched blogs:', blogs);
 
@@ -254,8 +256,7 @@ app.get('/blogs/user/:id', async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    // Assuming 'blogs' is a field in the User schema that references Blog documents
-    const blogs = await Blog.find({ added_by: req.params.id, status: 'published',club_secy_approval:'true' });
+    const blogs = await Blog.find({ added_by: req.params.id, status: 'published', club_secy_approval: 'true' });
 
     res.send(blogs);
   } catch (error) {
@@ -263,7 +264,7 @@ app.get('/blogs/user/:id', async (req, res) => {
   }
 });
 
- 
+
 
 // Authors 
 app.get('/authors', async (req, res) => {
@@ -308,6 +309,7 @@ app.get('/admin/blogs', authenticateUser, async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 app.get('admin/blogs/:id', authenticateUser, async (req, res) => {
   const _id = req.params.id;
   try {
@@ -348,6 +350,9 @@ app.get('/approval/blogs', authenticateUser, async (req, res) => {
 
 app.patch('/blogs/approval/:id', authenticateUser, async (req, res) => {
   const updates = Object.keys(req.body);
+  if (updates.includes('club_secy_approval') && req.user.email !== 'lisoc@iitgn.ac.in') {
+    return res.status(403).send({ message: 'Unauthorized' });
+  }
   try {
     const blog = await Blog.findOne({ _id: req.params.id });
 
@@ -355,8 +360,8 @@ app.patch('/blogs/approval/:id', authenticateUser, async (req, res) => {
       return res.status(404).send();
     }
 
-    updates.forEach((update) => blog[update] = req.body[update]);
-    await blog.save();
+
+
     res.send(blog);
   } catch (error) {
     res.status(400).send(error);
@@ -367,10 +372,10 @@ app.patch('/blogs/approval/:id', authenticateUser, async (req, res) => {
 // Get all comments for a blog post
 app.get('/blogs/:id/comments', async (req, res) => {
   try {
-      const comments = await Comment.find({ blog: req.params.id }).populate('added_by', 'name').exec();
-      res.json(comments);
+    const comments = await Comment.find({ blog: req.params.id }).populate('added_by', 'name').exec();
+    res.json(comments);
   } catch (error) {
-      res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -378,26 +383,26 @@ app.post('/blogs/:id/comments', authenticateUser, async (req, res) => {
   const { content } = req.body;
 
   try {
-      const blog = await Blog.findById(req.params.id);
-      if (!blog) {
-          return res.status(404).json({ message: 'Blog post not found' });
-      }
-      // console.log(req.user._id);
-      const user = await User.findById(req.user._id);
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ message: 'Blog post not found' });
+    }
+    // console.log(req.user._id);
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-      const newComment = new Comment({
-          content,
-          added_by: req.user._id,
-          blog: req.params.id
-      });
+    const newComment = new Comment({
+      content,
+      added_by: req.user._id,
+      blog: req.params.id
+    });
 
-      const savedComment = await newComment.save();
-      res.status(201).json(await savedComment.populate('added_by', 'name'));
+    const savedComment = await newComment.save();
+    res.status(201).json(await savedComment.populate('added_by', 'name'));
   } catch (error) {
-      res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 });
 

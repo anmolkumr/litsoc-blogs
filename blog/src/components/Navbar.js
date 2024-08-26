@@ -19,12 +19,11 @@ import cookie from 'react-cookies';
 export default function Navbar() {
   const [openNavNoTogglerSecond, setOpenNavNoTogglerSecond] = useState(false);
 
-  const token = cookie.load('token');
+  const token = localStorage.getItem('token');
   if(token){
-    const decoded = jwtDecode(token);
-    // console.log(decoded);
+    var decoded = jwtDecode(token);
+    console.log(decoded);
     localStorage.setItem('username', decoded.name);
-
   }
   else{
     // console.log("Not Logged In");
@@ -64,7 +63,9 @@ export default function Navbar() {
              
               
               <MDBNavbarItem>
-              <MDBNavbarLink href='/login'>Login</MDBNavbarLink>
+              {token ? <MDBNavbarLink href='/dashboard'>Go to Dashboard</MDBNavbarLink> : <MDBNavbarLink href='/login'>Login</MDBNavbarLink>}
+             
+              {/* <MDBNavbarLink href='/login'>Login</MDBNavbarLink> */}
 
               </MDBNavbarItem>
               <MDBNavbarItem>
@@ -72,10 +73,7 @@ export default function Navbar() {
 
               </MDBNavbarItem>
 
-              <MDBNavbarItem>
-              <MDBNavbarLink href='/developers'>For Developers</MDBNavbarLink>
-
-              </MDBNavbarItem>
+              
 
             </MDBNavbarNav>
             

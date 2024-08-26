@@ -7,7 +7,10 @@ import cookie from 'react-cookies';
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import Navbar from './Navbar';
+import Footer from './Footer';
 const MySwal = withReactContent(Swal)
+// b401ad1edafe30c3873e01fe7c262574-2b91eb47-e43ad9cb api mailgun
 
 
 function Login() {
@@ -54,6 +57,7 @@ function Login() {
 
   return (
     <>
+    <Navbar />
     <div className='bg-login'>
 
       <MDBContainer className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
@@ -67,6 +71,7 @@ function Login() {
         </MDBCard>
       </MDBContainer>
     </div>
+    <Footer/>
     </>
 
   );
