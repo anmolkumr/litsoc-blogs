@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { MDBContainer, MDBInput, MDBBtn, MDBInputGroup, MDBIcon, MDBCardText } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBInput, MDBBtn, MDBInputGroup, MDBIcon } from 'mdb-react-ui-kit';
 import axios from 'axios';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ function BlogEditor({ existingBlog }) {
   const [featuredImage, setFeaturedImage] = useState(existingBlog ? existingBlog.featured_img : '');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const userId = localStorage.getItem('username');
+  // const userId = localStorage.getItem('username');
   // console.log("User from local" + userId);
 
   useEffect(() => {

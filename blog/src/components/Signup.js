@@ -57,7 +57,7 @@ function Signup() {
           <h2 className="text-center mb-4">Signup</h2>
           
           <MDBInput
-            label="Roll Number"
+            label="Roll Number/Employee ID"
             type="tel"
             value={roll}
             onChange={(e) => setRoll(e.target.value)}
@@ -86,7 +86,7 @@ function Signup() {
             className="mb-4"
             />
              <MDBInput
-            label="Club Name/Associated With"
+            label="Name of Club"
             type="text"
             value={associatedWith}
             onChange={(e) => setAssociatedWith(e.target.value)}
