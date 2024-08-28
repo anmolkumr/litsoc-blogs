@@ -153,7 +153,10 @@ function Dashboard() {
                 <MDBBtn tag={Link} to="/create-blog" color="success" className="mb-3 me-1"><MDBIcon fas icon="plus" /> Create New Blog</MDBBtn>
                 <MDBBtn color="danger" onClick={logout} className="mb-3 me-1">Logout</MDBBtn>
                 {email === 'litsoc@iitgn.ac.in' ? (
+                    <>
                     <MDBBtn tag={Link} to="/approvals" color="warning" className="mb-3 me-1">Approvals</MDBBtn>
+                    <MDBBtn tag={Link} to="/users" color="warning" className="mb-3 me-1">Users</MDBBtn>
+                    </>
                 ) : (
                     <></>
                 )}

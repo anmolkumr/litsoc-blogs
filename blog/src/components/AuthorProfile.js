@@ -68,12 +68,20 @@ function AuthorProfile() {
                                                 {author.bio}
                                             </MDBCardText>
                                             <div className="author-social-icons">
-                                                <Link to={author.instagram}>
-                                                    <MDBIcon fab icon="instagram" className="text-white" />
-                                                </Link>
-                                                <Link to={author.whatsapp}>
-                                                    <MDBIcon fab icon="whatsapp" className="text-white" />
-                                                </Link>
+                                                {author.instagram ? (
+                                                    <Link to={"https://instagram.com/" + author.instagram}>
+                                                        <MDBIcon fab icon="instagram" className="text-white" />
+                                                    </Link>
+                                                ) : null}
+
+
+
+                                                {author.whatsapp ? (
+                                                    <Link to={"https://api.whatsapp.com/send?phone=+91" + author.whatsapp + "&text=Hey+" + author.name + "! Just read your blog at LitSoc!!"}>
+                                                        <MDBIcon fab icon="whatsapp" className="text-white" />
+                                                    </Link>
+                                                ) : null}
+                                             
                                             </div>
                                         </div>
                                     </MDBCardBody>

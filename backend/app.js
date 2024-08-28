@@ -123,7 +123,10 @@ app.post('/users', async (req, res) => {
 
 
 
-app.get('/users', async (req, res) => {
+app.get('/users', authenticateUser,  async (req, res) => {
+  if (req.user.email !== 'litsoc@iitgn.ac.in') {
+    return res.status(403).send({ message: 'Unauthorized' });
+  }
   try {
     const users = await User.find({});
     res.status(200).send(users);
@@ -133,11 +136,15 @@ app.get('/users', async (req, res) => {
 });
 
 app.get('/users/:id', async (req, res) => {
+
+  
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).send();
     }
+    //exclude password from the response
+    user.password = undefined;
     res.status(200).send(user);
   } catch (error) {
     res.status(500).send(error);
@@ -163,7 +170,10 @@ app.patch('/users/:id', async (req, res) => {
   }
 });
 
-app.delete('/users/:id', async (req, res) => {
+app.delete('/users/:id', authenticateUser, async (req, res) => {
+  if (req.user.email !== 'litsoc@iitgn.ac.in') {
+    return res.status(403).send({ message: 'Unauthorized' });
+  }
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {

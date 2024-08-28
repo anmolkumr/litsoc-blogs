@@ -17,6 +17,7 @@ import UpdateProfile from './components/UpdateProfile';
 import About from './pages/About';
 import Developers from './components/Developers';
 import ApprovalsPage from './pages/Approvals';
+import AllUsersPage from './pages/AllUsers';
 // import PrivateRoute from './components/PrivateRoute';
 
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/about" element={<About/>} />
         <Route path="/update-blog/:id" element={<UpdateBlogPage/>} />
         <Route path="/approvals" element={<ApprovalsPage/>} />
+        <Route path="/allusers" element={<AllUsersPage/>} />
       </Routes>
     </Router>
   );
