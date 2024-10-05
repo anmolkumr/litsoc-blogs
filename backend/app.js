@@ -33,8 +33,6 @@ const Comment = require('./models/Comment');
 
 // Auth middleware
 
-
-
 function authenticateUser(req, res, next) {
   let token = req.header("Authorization");
   // console.log(token);
@@ -101,7 +99,7 @@ app.post('/login', async (req, res) => {
       _id: user._id.toString(),
       email: user.email,
       name: user.name,
-    }, secretKey, { expiresIn: '4h' });
+    }, secretKey, { expiresIn: '30d' });
     res.cookie("token", token);
     res.status(200).send({ token });
   } catch (error) {
@@ -258,6 +256,7 @@ app.get('/blogs/:id', async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 // Get post by user id
 app.get('/blogs/user/:id', async (req, res) => {
   try {
@@ -292,11 +291,22 @@ app.get('/authors', async (req, res) => {
         }
       },
       {
-        $match: { 'blogs.0': { $exists: true } }
+        $addFields: {
+          blogs: {
+            $filter: {
+              input: '$blogs',
+              as: 'blog',
+              cond: { $eq: ['$$blog.status', 'published'] }
+            }
+          }
+        }
+      },
+      {
+        $match: { 'blogs.0': { $exists: true } } 
       },
       {
         $project: {
-          password: 0 // Exclude the password field if it exists in the User schema
+          password: 0 
         }
       }
     ]);
@@ -306,6 +316,7 @@ app.get('/authors', async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 
 //Writers Sections
 

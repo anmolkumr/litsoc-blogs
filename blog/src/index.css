@@ -293,6 +293,8 @@ blockquote{
   color: #555;
 }
 
+
+
 @media screen and (max-width: 768px) {
   .author-image {
     width: 150px;

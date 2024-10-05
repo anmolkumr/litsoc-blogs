@@ -30,7 +30,7 @@ export default function Navbar() {
   }
   return (
     <>
-      <MDBNavbar bgColor='light' className='literata-regular'>
+      <MDBNavbar  className='literata-regular custom-navbar'>
         <MDBContainer fluid> 
           <MDBNavbarBrand href='/'><img className='text-center' style={{height: 40, width:40,}} src={`${process.env.PUBLIC_URL}/logo.png`} alt="Logo" />
           LitSoc IITGN</MDBNavbarBrand>
@@ -48,13 +48,15 @@ export default function Navbar() {
           <MDBCollapse navbar open={openNavNoTogglerSecond}>
             <MDBNavbarNav className='mx-4 mr-auto mb-2 mb-lg-0'>
               <MDBNavbarItem>
-                <MDBNavbarLink active aria-current='page' href='#'>
-                  Home
+                
+                <MDBNavbarLink active aria-current='page' href='/'>
+                 Home
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
           
-                <MDBNavbarLink href='/authors'>Explore Authors</MDBNavbarLink>
+                <MDBNavbarLink href='/authors'>
+                Explore Authors</MDBNavbarLink>
               </MDBNavbarItem>
               
               <MDBNavbarItem>

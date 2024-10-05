@@ -13,7 +13,7 @@ function Home() {
    
     <div
         className='p-5 text-center bg-image'
-        style={{ backgroundImage: "url('bg-img.jpg')", height: '400px' }}
+        style={{ backgroundImage: "url('https://random-image-pepebigotes.vercel.app/api/random-image')", height: '400px' }}
       >
         <div className='mask' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2' }}>
           <div className='d-flex justify-content-center align-items-center h-100'>

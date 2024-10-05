@@ -13,10 +13,10 @@ const BlogCards = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/blogs`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        }) // Replace with your API endpoint
+        }) 
             .then(response => {
                 setBlogs(response.data);
-                setLoading(false); // Set loading to false after data is loaded
+                setLoading(false); 
             })
             .catch(error => {
                 console.error('There was an error fetching the blog data!', error);
@@ -31,7 +31,6 @@ const BlogCards = () => {
     });
 
     const publishedBlogs = blogs.filter(blog => blog.status === 'published').sort((a, b) => new Date(b.saved_at) - new Date(a.saved_at));;
-
     if (loading) {
         return (
             <div className=''>
@@ -78,10 +77,11 @@ const BlogCards = () => {
                                     month: 'short',
                                     day: 'numeric'
                                 })}</small><br />
-                            <small className="text-muted">
-                               
-                                Author:  <Link to={`/author/${blog.added_by._id}`}>
-                                <b className='text-muted'>{blog.added_by.name}</b>
+                             <small className="text-muted">
+                                Author: <Link to={`/author/${blog.added_by?._id}`}>
+                                    <b className='text-muted'>
+                                        {blog.added_by?.name || 'Anonymous'}
+                                    </b>
                                 </Link>
                             </small>
                         </MDBCardFooter>
